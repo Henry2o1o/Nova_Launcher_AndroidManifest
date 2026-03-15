@@ -2,6 +2,8 @@
 
 ## ⚠️ Grober Verlauf
 
+[Nova Launcher 7.0.57](https://www.apkmirror.com/apk/instabridge-sweden-ab/nova-launcher/nova-launcher-7-0-57-release/) - 8.29 MB
+
 Nova Launcher 7.0.57 - 8.29 MB
 
 Nova Launcher 8.0 beta - 11.97 MB
