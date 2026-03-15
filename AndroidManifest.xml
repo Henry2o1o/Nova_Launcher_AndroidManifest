@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="31" android:compileSdkVersionCodename="12" package="com.teslacoilsw.launcher" platformBuildVersionCode="31" platformBuildVersionName="12">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="33" android:compileSdkVersionCodename="13" package="com.teslacoilsw.launcher" platformBuildVersionCode="33" platformBuildVersionName="13">
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
@@ -10,10 +11,10 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <permission android:description="@string/permdesc_read_settings" android:label="@string/permlab_read_settings" android:name="com.teslacoilsw.launcher.permission.NOVA" android:permissionGroup="android.permission-group.SYSTEM_TOOLS" android:protectionLevel="signatureOrSystem"/>
+    <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <permission android:description="@string/permdesc_read_settings" android:label="@string/permlab_read_settings" android:name="com.teslacoilsw.launcher.permission.NOVA" android:protectionLevel="signature"/>
     <uses-permission android:name="com.teslacoilsw.launcher.permission.NOVA"/>
     <uses-feature android:name="android.hardware.telephony" android:required="false"/>
-    <permission android:description="@string/permdesc_install_shortcut" android:label="@string/permlab_install_shortcut" android:name="com.android.launcher.permission.INSTALL_SHORTCUT" android:permissionGroup="android.permission-group.SYSTEM_TOOLS" android:protectionLevel="dangerous"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
     <uses-permission android:name="android.permission.SET_WALLPAPER"/>
     <uses-permission android:name="android.permission.SET_WALLPAPER_HINTS"/>
@@ -22,12 +23,19 @@
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
     <uses-permission android:name="android.permission.READ_DEVICE_CONFIG"/>
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent>
+    </queries>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <application android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:backupAgent="com.android.launcher3.LauncherBackupAgent" android:backupInForeground="true" android:extractNativeLibs="false" android:fullBackupContent="@xml/backupscheme" android:fullBackupOnly="true" android:hardwareAccelerated="true" android:icon="@drawable/ic_launcher_home" android:label="@string/derived_app_name" android:largeHeap="@bool/config_largeHeap" android:name="com.teslacoilsw.launcher.NovaApplication" android:restoreAnyVersion="true" android:supportsRtl="true" android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4"/>
-        <activity android:clearTaskOnLaunch="true" android:configChanges="mcc|mnc|keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize" android:enabled="true" android:launchMode="singleTask" android:name="com.teslacoilsw.launcher.NovaLauncher" android:resizeableActivity="true" android:resumeWhilePausing="true" android:screenOrientation="unspecified" android:stateNotNeeded="true" android:taskAffinity="" android:windowSoftInputMode="adjustPan">
+        <activity android:clearTaskOnLaunch="true" android:configChanges="mcc|mnc|keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize|density" android:enabled="true" android:exported="true" android:launchMode="singleTask" android:name="com.teslacoilsw.launcher.NovaLauncher" android:resizeableActivity="true" android:resumeWhilePausing="true" android:screenOrientation="unspecified" android:stateNotNeeded="true" android:taskAffinity="" android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.HOME"/>
@@ -37,7 +45,7 @@
             </intent-filter>
             <meta-data android:name="com.android.launcher3.grid.control" android:value="com.teslacoilsw.launcher.grid_control"/>
         </activity>
-        <activity android:finishOnCloseSystemDialogs="true" android:icon="@drawable/ic_allapps" android:label="@string/nova_action" android:name="com.teslacoilsw.launcher.NovaShortcutCreateActivity" android:process=":wallpaper_chooser" android:theme="@style/Nova.DayNight">
+        <activity android:exported="true" android:finishOnCloseSystemDialogs="true" android:icon="@drawable/ic_allapps" android:label="@string/nova_action" android:name="com.teslacoilsw.launcher.NovaShortcutCreateActivity" android:process=":wallpaper_chooser" android:theme="@style/Nova.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -54,28 +62,29 @@
         </activity>
         <activity android:autoRemoveFromRecents="true" android:name="com.teslacoilsw.launcher.onboarding.FirstRunActivity" android:theme="@style/Nova.DayNight.Wallpaper"/>
         <activity android:autoRemoveFromRecents="true" android:name="com.teslacoilsw.launcher.onboarding.WhatsNewActivity" android:theme="@style/Nova.DayNight.Wallpaper"/>
-        <activity android:autoRemoveFromRecents="true" android:icon="@drawable/launcher_icon_settings" android:label="@string/nova_settings" android:name="com.teslacoilsw.launcher.preferences.SettingsActivity" android:theme="@style/Nova.DayNight.Wallpaper">
+        <activity android:autoRemoveFromRecents="true" android:exported="true" android:icon="@drawable/launcher_icon_settings" android:label="Nova Settings Legacy" android:name="com.teslacoilsw.launcher.preferences.SettingsActivityLegacy" android:theme="@style/Nova.DayNight.Wallpaper"/>
+        <activity android:autoRemoveFromRecents="true" android:exported="true" android:icon="@drawable/launcher_icon_settings" android:label="@string/nova_settings" android:name="com.teslacoilsw.launcher.preferences.SettingsActivity" android:theme="@style/Nova.DayNight.Wallpaper">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:label="@string/nova_settings" android:name="com.teslacoilsw.launcher.preferences.NovaSettingsSearchActivity" android:parentActivityName="com.teslacoilsw.launcher.preferences.SettingsActivity" android:theme="@style/Nova.Translucent">
-            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.teslacoilsw.launcher.preferences.SettingsActivity"/>
+        <activity android:label="@string/nova_settings" android:name="com.teslacoilsw.launcher.preferences.NovaSettingsSearchActivity" android:parentActivityName="com.teslacoilsw.launcher.preferences.SettingsActivityLegacy" android:theme="@style/Nova.Translucent">
+            <meta-data android:name="android.support.PARENT_ACTIVITY" android:value="com.teslacoilsw.launcher.preferences.SettingsActivityLegacy"/>
         </activity>
-        <activity android:icon="@drawable/launcher_icon_settings" android:label="@string/preference_icon_layout" android:name="com.teslacoilsw.launcher.preferences.AdaptiveIconSettingsActivity" android:roundIcon="@drawable/launcher_icon_settings_round" android:theme="@style/Nova.DayNight.Wallpaper"/>
-        <activity android:icon="@drawable/launcher_icon_settings" android:label="@string/preference_icon_layout" android:name="com.teslacoilsw.launcher.preferences.IconLayoutSettingsActivity" android:roundIcon="@drawable/launcher_icon_settings_round" android:theme="@style/Nova.DayNight.Wallpaper"/>
+        <activity android:icon="@drawable/launcher_icon_settings" android:label="@string/preference_icon_layout" android:name="com.teslacoilsw.launcher.preferences.AdaptiveIconSettingsActivity" android:theme="@style/Nova.DayNight.Wallpaper"/>
+        <activity android:icon="@drawable/launcher_icon_settings" android:label="@string/preference_icon_layout" android:name="com.teslacoilsw.launcher.preferences.IconLayoutSettingsActivity" android:theme="@style/Nova.DayNight.Wallpaper"/>
         <activity android:finishOnCloseSystemDialogs="true" android:label="Theme Picker" android:name="com.teslacoilsw.launcher.theme.PickerActivity" android:process=":wallpaper_chooser" android:theme="@style/Nova.DayNight.Wallpaper"/>
         <activity android:label="@string/choose_action" android:name="com.teslacoilsw.launcher.ChooseActionIntentActivity" android:theme="@style/Nova.DayNight"/>
         <activity android:label="@string/activity_licensing_enter_code" android:name="com.teslacoilsw.tesladirect.DirectLicensingEnterCode" android:theme="@style/Nova.DayNight" android:windowSoftInputMode="stateHidden"/>
         <activity android:icon="@mipmap/ic_launcher_bulkadd" android:label="@string/apps_or_folder" android:name="com.teslacoilsw.launcher.BulkAddAppActivity" android:theme="@style/Nova.DayNight"/>
-        <activity android:finishOnCloseSystemDialogs="true" android:icon="@mipmap/ic_launcher_puzzle" android:label="@string/activities_shortcuts" android:name="com.teslacoilsw.launcher.ActivitiesShortcutActivity" android:process=":wallpaper_chooser" android:roundIcon="@mipmap/ic_launcher_round_puzzle" android:theme="@style/Nova.DayNight">
+        <activity android:exported="true" android:finishOnCloseSystemDialogs="true" android:icon="@mipmap/ic_launcher_puzzle" android:label="@string/activities_shortcuts" android:name="com.teslacoilsw.launcher.ActivitiesShortcutActivity" android:process=":wallpaper_chooser" android:theme="@style/Nova.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:enabled="false" android:name="com.teslacoilsw.launcher.homereset.HomeReset">
+        <activity android:enabled="false" android:exported="true" android:name="com.teslacoilsw.launcher.homereset.HomeReset">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.HOME"/>
@@ -102,13 +111,13 @@
         <activity android:label="@string/preference_configure_tabs" android:name="com.teslacoilsw.launcher.drawer.drawergroups.DrawerTabSetupActivity" android:theme="@style/Nova.DayNight"/>
         <activity android:label="@string/hide_apps" android:name="com.teslacoilsw.launcher.drawer.drawergroups.GroupAppListActivity" android:theme="@style/Nova.DayNight"/>
         <activity android:configChanges="keyboardHidden|orientation|screenSize" android:finishOnCloseSystemDialogs="true" android:label="@string/nova_wallpaper" android:name="com.teslacoilsw.launcher.wallpaper.app.CropImage" android:process=":wallpaper_chooser" android:theme="@style/Nova.Dark" android:uiOptions="splitActionBarWhenNarrow"/>
-        <activity android:finishOnCloseSystemDialogs="true" android:label="@string/nova_wallpaper" android:name="com.android.launcher3.LauncherWallpaperPickerActivity" android:process=":wallpaper_chooser" android:theme="@style/Nova.WallpaperCrop">
+        <activity android:exported="true" android:finishOnCloseSystemDialogs="true" android:label="@string/nova_wallpaper" android:name="com.android.launcher3.LauncherWallpaperPickerActivity" android:process=":wallpaper_chooser" android:theme="@style/Nova.WallpaperCrop">
             <intent-filter>
                 <action android:name="android.intent.action.SET_WALLPAPER"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:finishOnCloseSystemDialogs="true" android:label="@string/nova_wallpaper" android:name="com.android.launcher3.WallpaperCropActivity" android:process=":wallpaper_chooser" android:theme="@style/Nova.WallpaperCrop">
+        <activity android:exported="true" android:finishOnCloseSystemDialogs="true" android:label="@string/nova_wallpaper" android:name="com.android.launcher3.WallpaperCropActivity" android:process=":wallpaper_chooser" android:theme="@style/Nova.WallpaperCrop">
             <intent-filter>
                 <action android:name="android.service.wallpaper.CROP_AND_SET_WALLPAPER"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -127,14 +136,14 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:label="Contact Nova Support" android:name="com.teslacoilsw.launcher.preferences.ContactSupportActivity" android:theme="@style/Nova.DayNight">
+        <activity android:exported="true" android:label="Contact Nova Support" android:name="com.teslacoilsw.launcher.preferences.ContactSupportActivity" android:theme="@style/Nova.DayNight">
             <intent-filter>
                 <action android:name="android.intent.action.SENDTO"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="mailto" android:sspPattern="support@teslacoilsw.com"/>
             </intent-filter>
         </activity>
-        <activity android:clearTaskOnLaunch="true" android:excludeFromRecents="true" android:finishOnCloseSystemDialogs="true" android:launchMode="singleInstance" android:name="com.teslacoilsw.launcher.RestoreBackupFileHandler" android:noHistory="true" android:theme="@style/Nova.Translucent">
+        <activity android:clearTaskOnLaunch="true" android:excludeFromRecents="true" android:exported="true" android:finishOnCloseSystemDialogs="true" android:launchMode="singleInstance" android:name="com.teslacoilsw.launcher.RestoreBackupFileHandler" android:noHistory="true" android:theme="@style/Nova.Translucent">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -192,7 +201,7 @@
             </intent-filter>
         </activity>
         <activity android:excludeFromRecents="true" android:name="com.teslacoilsw.launcher.screenoff.TimeOutActivity" android:noHistory="true" android:screenOrientation="locked" android:theme="@style/Nova.TimeOut"/>
-        <activity android:autoRemoveFromRecents="true" android:excludeFromRecents="true" android:icon="@drawable/ic_allapps" android:label="@string/nova_action_app_drawer" android:name="com.teslacoilsw.launcher.preferences.AddAppDrawerActivity" android:theme="@style/AppItemActivityTheme"/>
+        <activity android:autoRemoveFromRecents="true" android:excludeFromRecents="true" android:icon="@drawable/ic_allapps" android:label="@string/nova_action_app_drawer" android:name="com.teslacoilsw.launcher.preferences.AddAppDrawerActivity" android:theme="@style/AddItemActivityTheme"/>
         <provider android:authorities="com.teslacoilsw.launcher.api" android:exported="true" android:name="com.teslacoilsw.launcher.ApiProvider"/>
         <provider android:authorities="com.teslacoilsw.launcher.fileprovider" android:exported="false" android:grantUriPermissions="true" android:name="aosp.androidx.core.content.FileProvider">
             <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_provider_paths"/>
@@ -219,47 +228,42 @@
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED"/>
             </intent-filter>
         </receiver>
-        <service android:enabled="true" android:name="com.teslacoilsw.launcher.NovaAccessibilityService" android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+        <service android:enabled="true" android:exported="true" android:name="com.teslacoilsw.launcher.NovaAccessibilityService" android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService"/>
             </intent-filter>
             <meta-data android:name="android.accessibilityservice" android:resource="@xml/accessibilityservice_config"/>
         </service>
-        <service android:enabled="@bool/notification_dots_enabled" android:label="@string/notification_service_label" android:name="com.teslacoilsw.launcher.notificationlistener.NotificationListener" android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+        <service android:exported="true" android:label="@string/notification_service_label" android:name="com.teslacoilsw.launcher.notificationlistener.NotificationListener" android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService"/>
             </intent-filter>
         </service>
+        <service android:exported="false" android:name="com.teslacoilsw.launcher.wallpaper.compat.WallpaperManagerCompatVL$ColorExtractionService" android:permission="android.permission.BIND_JOB_SERVICE" android:process=":wallpaper_chooser"/>
         <meta-data android:name="firebase_analytics_collection_enabled" android:value="false"/>
         <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false"/>
         <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false"/>
         <meta-data android:name="com.samsung.android.non_immersive" android:value="true"/>
         <meta-data android:name="com.bugsnag.android.API_KEY" android:value="916fec5801e989687b64db6d86f09c52"/>
-        <receiver android:enabled="@bool/enable_install_shortcut_api" android:name="com.android.launcher3.InstallShortcutReceiver" android:permission="com.android.launcher.permission.INSTALL_SHORTCUT">
-            <intent-filter>
-                <action android:name="com.android.launcher.action.INSTALL_SHORTCUT"/>
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.android.launcher3.SessionCommitReceiver">
+        <receiver android:exported="true" android:name="com.android.launcher3.SessionCommitReceiver">
             <intent-filter>
                 <action android:name="android.content.pm.action.SESSION_COMMITTED"/>
             </intent-filter>
         </receiver>
-        <receiver android:name="com.android.launcher3.AppWidgetsRestoredReceiver">
+        <receiver android:exported="true" android:name="com.android.launcher3.AppWidgetsRestoredReceiver">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_HOST_RESTORED"/>
             </intent-filter>
         </receiver>
-        <service android:exported="false" android:name="com.android.launcher3.uioverrides.dynamicui.WallpaperManagerCompatVL$ColorExtractionService" android:permission="android.permission.BIND_JOB_SERVICE" android:process=":wallpaper_chooser"/>
         <meta-data android:name="android.nfc.disable_beam_default" android:value="true"/>
-        <activity android:autoRemoveFromRecents="true" android:excludeFromRecents="true" android:label="@string/action_add_to_workspace" android:name="com.android.launcher3.dragndrop.AddItemActivity" android:theme="@style/AppItemActivityTheme">
+        <activity android:autoRemoveFromRecents="true" android:excludeFromRecents="true" android:exported="true" android:name="com.android.launcher3.dragndrop.AddItemActivity" android:theme="@style/AddItemActivityTheme">
             <intent-filter>
                 <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT"/>
                 <action android:name="android.content.pm.action.CONFIRM_PIN_APPWIDGET"/>
             </intent-filter>
         </activity>
         <provider android:authorities="com.teslacoilsw.launcher.settings" android:exported="false" android:name="com.android.launcher3.LauncherProvider"/>
-        <activity android:enabled="false" android:launchMode="singleTop" android:name="com.android.launcher3.secondarydisplay.SecondaryDisplayLauncher" android:theme="@style/AppTheme">
+        <activity android:enabled="false" android:exported="true" android:launchMode="singleTop" android:name="com.android.launcher3.secondarydisplay.SecondaryDisplayLauncher" android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.SECONDARY_HOME"/>
@@ -319,14 +323,17 @@
             <intent-filter>
                 <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="androidx.profileinstaller.action.SKIP_FILE"/>
+            </intent-filter>
         </receiver>
         <service android:directBootAware="true" android:exported="false" android:name="androidx.room.MultiInstanceInvalidationService"/>
         <activity android:enabled="false" android:exported="false" android:launchMode="singleInstance" android:name="com.google.android.play.core.missingsplits.PlayCoreMissingSplitsActivity" android:process=":playcore_missing_splits_activity" android:stateNotNeeded="true"/>
         <activity android:exported="false" android:name="com.google.android.play.core.common.PlayCoreDialogWrapperActivity" android:stateNotNeeded="true" android:theme="@style/Theme.PlayCore.Transparent"/>
         <service android:enabled="false" android:exported="true" android:name="com.google.android.play.core.assetpacks.AssetPackExtractionService">
-            <meta-data android:name="com.google.android.play.core.assetpacks.versionCode" android:value="11002"/>
+            <meta-data android:name="com.google.android.play.core.assetpacks.versionCode" android:value="11003"/>
         </service>
         <service android:enabled="false" android:exported="false" android:name="com.google.android.play.core.assetpacks.ExtractionForegroundService"/>
-        <meta-data android:name="com.bugsnag.android.BUILD_UUID" android:value="cbca6020-ea2b-42eb-b9cc-d71b443848e1"/>
+        <meta-data android:name="com.bugsnag.android.BUILD_UUID" android:value="61e283dc-8a73-4fa4-a2cf-c9525ccadd14"/>
     </application>
 </manifest>
