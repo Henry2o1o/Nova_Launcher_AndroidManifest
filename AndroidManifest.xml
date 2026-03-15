@@ -11,8 +11,15 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"/>
     <permission android:description="@string/permdesc_read_settings" android:label="@string/permlab_read_settings" android:name="com.teslacoilsw.launcher.permission.NOVA" android:protectionLevel="signature"/>
     <uses-permission android:name="com.teslacoilsw.launcher.permission.NOVA"/>
     <uses-feature android:name="android.hardware.telephony" android:required="false"/>
@@ -25,12 +32,15 @@
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
     <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent>
+        <intent>
+            <action android:name="io.branch.engage.CONDUIT_SOURCE_BEACON"/>
+        </intent>
         <package android:name="com.spotify.music"/>
         <package android:name="com.spotify.music.debug"/>
         <package android:name="com.spotify.music.canary"/>
@@ -42,17 +52,12 @@
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService"/>
         </intent>
-        <intent>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent>
     </queries>
+    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <permission android:name="com.teslacoilsw.launcher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature"/>
     <uses-permission android:name="com.teslacoilsw.launcher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
     <application android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:backupAgent="com.android.launcher3.LauncherBackupAgent" android:backupInForeground="true" android:extractNativeLibs="false" android:fullBackupContent="@xml/backupscheme" android:fullBackupOnly="true" android:hardwareAccelerated="true" android:icon="@drawable/ic_launcher_home" android:label="@string/derived_app_name" android:largeHeap="@bool/config_largeHeap" android:localeConfig="@xml/_generated_res_locale_config" android:name="com.teslacoilsw.launcher.NovaApplication" android:restoreAnyVersion="true" android:supportsRtl="true" android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4"/>
         <activity android:clearTaskOnLaunch="true" android:configChanges="mcc|mnc|keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize|density" android:enabled="true" android:exported="true" android:launchMode="singleTask" android:name="com.teslacoilsw.launcher.NovaLauncher" android:resizeableActivity="true" android:resumeWhilePausing="true" android:screenOrientation="unspecified" android:stateNotNeeded="true" android:taskAffinity="" android:windowSoftInputMode="adjustPan">
@@ -240,7 +245,7 @@
         <activity android:name="com.teslacoilsw.launcher.screenoff.DeviceAdminEnableActivity" android:theme="@style/Nova.Translucent"/>
         <activity android:name="com.teslacoilsw.launcher.search.calendar.CalendarPermissionActivity" android:theme="@style/Nova.Translucent"/>
         <activity android:exported="false" android:name="io.branch.engage.sesame_lite.api_integration.SlackOauthActivity"/>
-        <activity android:exported="true" android:launchMode="singleTask" android:name="com.teslacoilsw.launcher.search.shortcutsearch.authorization.LoginOauthActivity">
+        <activity android:exported="true" android:launchMode="singleInstance" android:name="com.teslacoilsw.launcher.search.shortcutsearch.authorization.LoginOauthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -303,6 +308,15 @@
             </intent-filter>
         </activity>
         <activity android:exported="false" android:label="@string/places_autocomplete_label" android:name="com.google.android.libraries.places.widget.AutocompleteActivity" android:theme="@style/PlacesAutocompleteOverlay" android:windowSoftInputMode="adjustResize"/>
+        <activity android:exported="false" android:name="io.branch.engage.sesame_lite.api_integration.AskPermissionActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <provider android:authorities="com.teslacoilsw.launcher.searchResultFileProvider" android:exported="false" android:grantUriPermissions="true" android:name="io.branch.engage.sesame_lite.api_integration.files.SearchResultFileProvider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
+        </provider>
+        <provider android:authorities="com.teslacoilsw.launcher.branch.engage.sink.provider" android:exported="true" android:name="io.branch.engage.conduit.sink.internal.SinkProvider">
+            <intent-filter>
+                <action android:name="io.branch.engage.CONDUIT_SINK_BEACON"/>
+            </intent-filter>
+        </provider>
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <activity android:exported="false" android:name="com.google.android.gms.common.api.GoogleApiActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
@@ -384,10 +398,6 @@
             <meta-data android:name="com.google.android.play.core.assetpacks.versionCode" android:value="11003"/>
         </service>
         <service android:enabled="false" android:exported="false" android:name="com.google.android.play.core.assetpacks.ExtractionForegroundService"/>
-        <activity android:exported="false" android:name="io.branch.engage.sesame_lite.api_integration.AskPermissionActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <provider android:authorities="com.teslacoilsw.launcher.searchResultFileProvider" android:exported="false" android:grantUriPermissions="true" android:name="io.branch.engage.sesame_lite.api_integration.files.SearchResultFileProvider">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
-        </provider>
-        <meta-data android:name="com.bugsnag.android.BUILD_UUID" android:value="82696b0f-7f2c-4e96-9030-93e53629f8b1"/>
+        <meta-data android:name="com.bugsnag.android.BUILD_UUID" android:value="a7a1256d-683b-487e-af7e-306bbdda138c"/>
     </application>
 </manifest>
