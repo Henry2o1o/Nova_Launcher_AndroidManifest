@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="33" android:compileSdkVersionCodename="13" package="com.teslacoilsw.launcher" platformBuildVersionCode="33" platformBuildVersionName="13">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:compileSdkVersion="34" android:compileSdkVersionCodename="14" package="com.teslacoilsw.launcher" platformBuildVersionCode="34" platformBuildVersionName="14">
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -28,15 +28,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <queries>
-        <intent>
-            <action android:name="android.intent.action.MAIN"/>
-            <category android:name="android.intent.category.LAUNCHER"/>
-        </intent>
         <package android:name="com.spotify.music"/>
         <package android:name="com.spotify.music.debug"/>
         <package android:name="com.spotify.music.canary"/>
@@ -48,12 +42,18 @@
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService"/>
         </intent>
+        <intent>
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent>
     </queries>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <permission android:name="com.teslacoilsw.launcher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature"/>
     <uses-permission android:name="com.teslacoilsw.launcher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
-    <application android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:backupAgent="com.android.launcher3.LauncherBackupAgent" android:backupInForeground="true" android:extractNativeLibs="false" android:fullBackupContent="@xml/backupscheme" android:fullBackupOnly="true" android:hardwareAccelerated="true" android:icon="@drawable/ic_launcher_home" android:label="@string/derived_app_name" android:largeHeap="@bool/config_largeHeap" android:name="com.teslacoilsw.launcher.NovaApplication" android:restoreAnyVersion="true" android:supportsRtl="true" android:theme="@style/AppTheme">
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
+    <application android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:backupAgent="com.android.launcher3.LauncherBackupAgent" android:backupInForeground="true" android:extractNativeLibs="false" android:fullBackupContent="@xml/backupscheme" android:fullBackupOnly="true" android:hardwareAccelerated="true" android:icon="@drawable/ic_launcher_home" android:label="@string/derived_app_name" android:largeHeap="@bool/config_largeHeap" android:localeConfig="@xml/_generated_res_locale_config" android:name="com.teslacoilsw.launcher.NovaApplication" android:restoreAnyVersion="true" android:supportsRtl="true" android:theme="@style/AppTheme">
         <meta-data android:name="android.max_aspect" android:value="2.4"/>
         <activity android:clearTaskOnLaunch="true" android:configChanges="mcc|mnc|keyboard|keyboardHidden|navigation|orientation|screenLayout|screenSize|smallestScreenSize|density" android:enabled="true" android:exported="true" android:launchMode="singleTask" android:name="com.teslacoilsw.launcher.NovaLauncher" android:resizeableActivity="true" android:resumeWhilePausing="true" android:screenOrientation="unspecified" android:stateNotNeeded="true" android:taskAffinity="" android:windowSoftInputMode="adjustPan">
             <intent-filter>
@@ -81,7 +81,7 @@
             </intent-filter>
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/app_shortcuts"/>
         </activity>
-        <activity android:autoRemoveFromRecents="true" android:name="com.teslacoilsw.launcher.onboarding.FirstRunActivity" android:theme="@style/Nova.DayNight.Wallpaper"/>
+        <activity android:autoRemoveFromRecents="true" android:name="com.teslacoilsw.launcher.onboarding.FirstRunActivityCompose" android:theme="@style/Nova.DayNight.Wallpaper"/>
         <activity android:autoRemoveFromRecents="true" android:name="com.teslacoilsw.launcher.onboarding.WhatsNewActivity" android:theme="@style/Nova.DayNight.Wallpaper"/>
         <activity android:autoRemoveFromRecents="true" android:exported="true" android:icon="@drawable/launcher_icon_settings" android:label="Nova Settings Legacy" android:name="com.teslacoilsw.launcher.preferences.SettingsActivityLegacy" android:theme="@style/Nova.DayNight.Wallpaper"/>
         <activity android:autoRemoveFromRecents="true" android:exported="true" android:icon="@drawable/launcher_icon_settings" android:label="@string/nova_settings" android:name="com.teslacoilsw.launcher.preferences.SettingsActivity" android:theme="@style/Nova.DayNight.Wallpaper">
@@ -239,7 +239,7 @@
         </receiver>
         <activity android:name="com.teslacoilsw.launcher.screenoff.DeviceAdminEnableActivity" android:theme="@style/Nova.Translucent"/>
         <activity android:name="com.teslacoilsw.launcher.search.calendar.CalendarPermissionActivity" android:theme="@style/Nova.Translucent"/>
-        <activity android:exported="false" android:name="io.branch.search.sesame_lite.api_integration.SlackOauthActivity"/>
+        <activity android:exported="false" android:name="io.branch.engage.sesame_lite.api_integration.SlackOauthActivity"/>
         <activity android:exported="true" android:launchMode="singleTask" android:name="com.teslacoilsw.launcher.search.shortcutsearch.authorization.LoginOauthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -306,10 +306,6 @@
         <uses-library android:name="org.apache.http.legacy" android:required="false"/>
         <activity android:exported="false" android:name="com.google.android.gms.common.api.GoogleApiActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
-        <activity android:exported="false" android:name="io.branch.search.sesame_lite.api_integration.AskPermissionActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <provider android:authorities="com.teslacoilsw.launcher.searchResultFileProvider" android:exported="false" android:grantUriPermissions="true" android:name="io.branch.search.sesame_lite.api_integration.files.SearchResultFileProvider">
-            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
-        </provider>
         <service android:directBootAware="false" android:enabled="@bool/enable_system_alarm_service_default" android:exported="false" android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"/>
         <service android:directBootAware="false" android:enabled="@bool/enable_system_job_service_default" android:exported="true" android:name="androidx.work.impl.background.systemjob.SystemJobService" android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:directBootAware="false" android:enabled="@bool/enable_system_foreground_service_default" android:exported="false" android:name="androidx.work.impl.foreground.SystemForegroundService"/>
@@ -388,6 +384,10 @@
             <meta-data android:name="com.google.android.play.core.assetpacks.versionCode" android:value="11003"/>
         </service>
         <service android:enabled="false" android:exported="false" android:name="com.google.android.play.core.assetpacks.ExtractionForegroundService"/>
-        <meta-data android:name="com.bugsnag.android.BUILD_UUID" android:value="574e22eb-69dd-48ae-9254-339efb797933"/>
+        <activity android:exported="false" android:name="io.branch.engage.sesame_lite.api_integration.AskPermissionActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <provider android:authorities="com.teslacoilsw.launcher.searchResultFileProvider" android:exported="false" android:grantUriPermissions="true" android:name="io.branch.engage.sesame_lite.api_integration.files.SearchResultFileProvider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
+        </provider>
+        <meta-data android:name="com.bugsnag.android.BUILD_UUID" android:value="82696b0f-7f2c-4e96-9030-93e53629f8b1"/>
     </application>
 </manifest>
