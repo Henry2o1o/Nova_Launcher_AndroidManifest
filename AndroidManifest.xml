@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
+    <uses-permission android:name="android.permission.READ_CALENDAR"/>
     <permission android:description="@string/permdesc_read_settings" android:label="@string/permlab_read_settings" android:name="com.teslacoilsw.launcher.permission.NOVA" android:protectionLevel="signature"/>
     <uses-permission android:name="com.teslacoilsw.launcher.permission.NOVA"/>
     <uses-feature android:name="android.hardware.telephony" android:required="false"/>
@@ -21,17 +22,34 @@
     <uses-permission android:name="android.permission.BIND_APPWIDGET"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES"/>
-    <uses-permission android:name="android.permission.READ_DEVICE_CONFIG"/>
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"/>
     <queries>
         <intent>
             <action android:name="android.intent.action.MAIN"/>
             <category android:name="android.intent.category.LAUNCHER"/>
         </intent>
+        <package android:name="com.spotify.music"/>
+        <package android:name="com.spotify.music.debug"/>
+        <package android:name="com.spotify.music.canary"/>
+        <package android:name="com.spotify.music.partners"/>
+        <intent>
+            <action android:name="com.spotify.sso.action.START_AUTH_FLOW"/>
+            <data android:mimeType="text/plain"/>
+        </intent>
+        <intent>
+            <action android:name="android.support.customtabs.action.CustomTabsService"/>
+        </intent>
     </queries>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
     <permission android:name="com.teslacoilsw.launcher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" android:protectionLevel="signature"/>
     <uses-permission android:name="com.teslacoilsw.launcher.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"/>
@@ -220,6 +238,16 @@
             </intent-filter>
         </receiver>
         <activity android:name="com.teslacoilsw.launcher.screenoff.DeviceAdminEnableActivity" android:theme="@style/Nova.Translucent"/>
+        <activity android:name="com.teslacoilsw.launcher.search.calendar.CalendarPermissionActivity" android:theme="@style/Nova.Translucent"/>
+        <activity android:exported="false" android:name="io.branch.search.sesame_lite.api_integration.SlackOauthActivity"/>
+        <activity android:exported="true" android:launchMode="singleTask" android:name="com.teslacoilsw.launcher.search.shortcutsearch.authorization.LoginOauthActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="io.branch.search" android:path="/callback/oauth2" android:scheme="disco"/>
+            </intent-filter>
+        </activity>
         <receiver android:description="@string/deviceadmin_description" android:enabled="true" android:exported="true" android:name="com.teslacoilsw.launcher.NovaDeviceAdminReceiver" android:permission="android.permission.BIND_DEVICE_ADMIN">
             <meta-data android:name="android.app.device_admin" android:resource="@xml/device_admin"/>
             <intent-filter>
@@ -248,6 +276,7 @@
         <meta-data android:name="firebase_crashlytics_collection_enabled" android:value="false"/>
         <meta-data android:name="com.samsung.android.non_immersive" android:value="true"/>
         <meta-data android:name="com.bugsnag.android.API_KEY" android:value="916fec5801e989687b64db6d86f09c52"/>
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBdDzbs3DuxucMmToxLxRe49qSf9oA3W-s"/>
         <receiver android:exported="true" android:name="com.android.launcher3.SessionCommitReceiver">
             <intent-filter>
                 <action android:name="android.content.pm.action.SESSION_COMMITTED"/>
@@ -273,6 +302,14 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
+        <activity android:exported="false" android:label="@string/places_autocomplete_label" android:name="com.google.android.libraries.places.widget.AutocompleteActivity" android:theme="@style/PlacesAutocompleteOverlay" android:windowSoftInputMode="adjustResize"/>
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+        <activity android:exported="false" android:name="com.google.android.gms.common.api.GoogleApiActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
+        <activity android:exported="false" android:name="io.branch.search.sesame_lite.api_integration.AskPermissionActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <provider android:authorities="com.teslacoilsw.launcher.searchResultFileProvider" android:exported="false" android:grantUriPermissions="true" android:name="io.branch.search.sesame_lite.api_integration.files.SearchResultFileProvider">
+            <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths"/>
+        </provider>
         <service android:directBootAware="false" android:enabled="@bool/enable_system_alarm_service_default" android:exported="false" android:name="androidx.work.impl.background.systemalarm.SystemAlarmService"/>
         <service android:directBootAware="false" android:enabled="@bool/enable_system_job_service_default" android:exported="true" android:name="androidx.work.impl.background.systemjob.SystemJobService" android:permission="android.permission.BIND_JOB_SERVICE"/>
         <service android:directBootAware="false" android:enabled="@bool/enable_system_foreground_service_default" android:exported="false" android:name="androidx.work.impl.foreground.SystemForegroundService"/>
@@ -317,7 +354,20 @@
                 <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS"/>
             </intent-filter>
         </receiver>
+        <activity android:exported="true" android:launchMode="singleTask" android:name="com.spotify.sdk.android.auth.LoginActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:host="io.branch.search.spotify" android:scheme="disco"/>
+            </intent-filter>
+        </activity>
         <service android:directBootAware="true" android:exported="false" android:name="androidx.room.MultiInstanceInvalidationService"/>
+        <service android:exported="false" android:name="com.google.android.datatransport.runtime.backends.TransportBackendDiscovery">
+            <meta-data android:name="backend:com.google.android.datatransport.cct.CctBackendFactory" android:value="cct"/>
+        </service>
+        <service android:exported="false" android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.JobInfoSchedulerService" android:permission="android.permission.BIND_JOB_SERVICE"/>
+        <receiver android:exported="false" android:name="com.google.android.datatransport.runtime.scheduling.jobscheduling.AlarmManagerSchedulerBroadcastReceiver"/>
         <receiver android:directBootAware="false" android:enabled="true" android:exported="true" android:name="androidx.profileinstaller.ProfileInstallReceiver" android:permission="android.permission.DUMP">
             <intent-filter>
                 <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE"/>
@@ -338,6 +388,6 @@
             <meta-data android:name="com.google.android.play.core.assetpacks.versionCode" android:value="11003"/>
         </service>
         <service android:enabled="false" android:exported="false" android:name="com.google.android.play.core.assetpacks.ExtractionForegroundService"/>
-        <meta-data android:name="com.bugsnag.android.BUILD_UUID" android:value="3825ad83-66f6-46e9-b5d2-ab73eb5fde9b"/>
+        <meta-data android:name="com.bugsnag.android.BUILD_UUID" android:value="574e22eb-69dd-48ae-9254-339efb797933"/>
     </application>
 </manifest>
