@@ -22,5 +22,5 @@ Nova Launcher 8.3.1 - 17.90 MB
 
 Nova Launcher 8.4.0 beta - 18.05 MB
 
-[Nova Launcher 8.4.6 beta](https://www.apkmirror.com/apk/instabridge-sweden-ab/nova-launcher/nova-launcher-7-0-57-release/](https://www.apkmirror.com/apk/instabridge-sweden-ab/nova-launcher/nova-launcher-81038-8-4-6-release/) - 22.66 MB
+[Nova Launcher 8.4.6 beta](https://www.apkmirror.com/apk/instabridge-sweden-ab/nova-launcher/nova-launcher-7-0-57-release/) - 22.66 MB
 
